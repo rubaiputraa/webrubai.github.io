@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Imam Rubai Putra</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        /* Skema Warna Khusus */
+        :root {
+            --bg-color: #F8F9FA;
+            --primary-color: #6367FF;
+            --secondary-color: #34495E;
+            --accent-color: #3498DB;
+            --text-color: #2b2d42;
+        }
+
+        /* Base Styles */
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--bg-color); }
+        ::-webkit-scrollbar-thumb { background: var(--primary-color); border-radius: 5px; }
+
+        /* Typography & Colors */
+        .text-primary-custom { color: var(--primary-color) !important; }
+        .text-secondary-custom { color: var(--secondary-color) !important; }
+        .bg-secondary-custom { background-color: var(--secondary-color) !important; }
+        
+        .section-padding { padding: 100px 0; }
+
+        /* Glassmorphism Navbar */
+        .navbar-custom {
+            background: rgba(99, 103, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .navbar-custom .navbar-brand { font-weight: 800; letter-spacing: 1px; }
+        .navbar-custom .navbar-brand, .navbar-custom .nav-link { color: #ffffff !important; font-weight: 500; }
+        .navbar-custom .nav-link { position: relative; padding-bottom: 5px; margin: 0 10px; }
+        .navbar-custom .nav-link::after {
+            content: ''; position: absolute; width: 0; height: 2px;
+            bottom: 0; left: 0; background-color: #fff;
+            transition: width 0.3s ease;
+        }
+        .navbar-custom .nav-link:hover::after { width: 100%; }
+
+        /* Hero Section */
+        #home {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: radial-gradient(circle at top right, rgba(99,103,255,0.1), transparent 40%),
+                        radial-gradient(circle at bottom left, rgba(52,152,219,0.1), transparent 40%);
+        }
+        
+        /* FIX PADA BARIS INI: Penambahan background-clip standar */
+        .hero-title { font-size: 4rem; font-weight: 800; background: -webkit-linear-gradient(45deg, var(--primary-color), var(--accent-color)); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        /* Floating Animation */
+        .floating-img {
+            animation: float 6s ease-in-out infinite;
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            box-shadow: 0 15px 35px rgba(99, 103, 255, 0.2);
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Buttons */
+        .btn-accent {
+            background-color: var(--accent-color); color: white;
+            padding: 12px 30px; font-weight: 600; border-radius: 50px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: none;
+        }
+        .btn-accent:hover {
+            background-color: var(--primary-color); color: white;
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(99, 103, 255, 0.4);
+        }
+
+        /* Skills Progress */
+        .skill-card {
+            background: white; border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: transform 0.3s;
+        }
+        .skill-card:hover { transform: translateY(-10px); }
+        .progress { height: 12px; border-radius: 10px; background-color: #e9ecef; overflow: visible; }
+        .progress-bar { 
+            background: linear-gradient(90deg, var(--accent-color), var(--primary-color)); 
+            border-radius: 10px; position: relative;
+        }
+
+        /* Portfolio Hover Reveal */
+        .portfolio-item {
+            position: relative; overflow: hidden; border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+        .portfolio-item img { transition: transform 0.5s ease; }
+        .portfolio-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to top, rgba(52, 73, 94, 0.95), rgba(99, 103, 255, 0.8));
+            color: white; opacity: 0; transform: translateY(100%);
+            transition: all 0.4s ease-in-out;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 2rem; text-align: center;
+        }
+        .portfolio-item:hover img { transform: scale(1.1); }
+        .portfolio-item:hover .portfolio-overlay { opacity: 1; transform: translateY(0); }
+
+        /* Certifications Cards */
+        .cert-card {
+            background: white; padding: 30px; border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05); transition: all 0.3s;
+            height: 100%; border-left: 5px solid var(--primary-color);
+            display: flex; flex-direction: column;
+        }
+        .cert-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(99,103,255,0.15); }
+        .cert-icon { font-size: 2.5rem; color: var(--accent-color); margin-bottom: 15px; }
+
+        /* Contact Cards */
+        .contact-card {
+            background: white; padding: 30px; border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05); transition: all 0.3s;
+            text-decoration: none; display: block;
+        }
+        .contact-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(99,103,255,0.15); }
+        .contact-icon { font-size: 2.5rem; color: var(--primary-color); margin-bottom: 15px; transition: transform 0.3s; }
+        .contact-card:hover .contact-icon { transform: scale(1.2) rotate(10deg); }
+
+        footer { background-color: var(--secondary-color); color: #fff; }
+    </style>
+</head>
+<body data-bs-spy="scroll" data-bs-target="#mainNav" data-bs-offset="80">
+
+    <nav class="navbar navbar-expand-lg navbar-custom fixed-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand" href="#home" data-aos="fade-right">Portfolio Profile</a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="bi bi-grid-3x3-gap-fill text-white fs-2"></i>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav" data-aos="fade-left" data-aos-delay="200">
+                    <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#portfolio">Portfolio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#certifications">Certifications</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home">
+        <div class="container">
+            <div class="row align-items-center min-vh-100 pt-5">
+                <div class="col-lg-6 order-2 order-lg-1 text-center text-lg-start">
+                    <div data-aos="fade-up" data-aos-duration="1000">
+                        <span class="badge bg-primary-custom px-3 py-2 rounded-pill mb-3" data-aos="zoom-in" data-aos-delay="200">Mahasiswa Teknik Informatika</span>
+                        <h1 class="hero-title mb-2" data-aos="fade-up" data-aos-delay="300">Imam Rubai Putra</h1>
+                        <h2 class="fs-4 text-secondary-custom mb-4" data-aos="fade-up" data-aos-delay="400">| Database Engineer | AI Engineer | Data Analyst |</h2>
+                        <p class="lead text-muted mb-5" data-aos="fade-up" data-aos-delay="500">
+                            Menerjemahkan kompleksitas data menjadi wawasan bermakna dan mengintegrasikan model kecerdasan buatan untuk menciptakan solusi teknologi yang inovatif.
+                        </p>
+                        <div data-aos="fade-up" data-aos-delay="600">
+                            <a href="#portfolio" class="btn btn-accent me-3 mb-3">Lihat Portfolio <i class="bi bi-arrow-down-circle ms-2"></i></a>
+                            <a href="#contact" class="btn btn-outline-dark mb-3 rounded-pill px-4 py-2 fw-semibold">Hubungi Saya</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 order-1 order-lg-2 mb-5 mb-lg-0 d-flex flex-column justify-content-center align-items-center">
+                     <img src="asset/photo/profile.jpeg" style="width: 300px; height: 300px; object-fit: cover;" alt="Imam Rubai Putra" class="img-fluid floating-img rounded-circle" data-aos="zoom-in" data-aos-duration="1200">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="section-padding bg-white">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-5 mb-5 mb-lg-0" data-aos="fade-right" data-aos-duration="1000">
+                    <div class="position-relative">
+                        <img src="asset/photo2/photo2.jpeg" alt="Tentang Imam" class="img-fluid rounded-4 shadow-lg">
+                        <div class="position-absolute bottom-0 end-0 bg-white p-4 rounded-4 shadow-lg m-n3" data-aos="flip-up" data-aos-delay="400">
+                            <h3 class="text-primary-custom fw-bold mb-0">100%</h3>
+                            <p class="text-muted mb-0 fw-semibold">Dedikasi</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 offset-lg-1">
+                    <div data-aos="fade-left" data-aos-duration="1000">
+                        <h6 class="text-accent text-uppercase fw-bold tracking-wide">Kenali Saya Lebih Jauh</h6>
+                        <p class="fs-5 text-muted mb-4 mt-3">
+                            Saat ini saya menempuh pendidikan Teknik Informatika di <a href="https://machung.ac.id/" target="_blank" class="text-primary-custom text-decoration-none fw-bold">Universitas Ma Chung</a>. Di ruang kelas, saya asyik merangkai struktur web dengan HTML dan melatih model Machine Learning.
+                        </p>
+                        <p class="fs-5 text-muted mb-4">
+                            Pola pikir analitis saya tidak berhenti pada koding. Saya memiliki minat mendalam pada pengolahan data untuk menemukan wawasan bermakna. Bagiku, menganalisis pola data sama menariknya dengan memecahkan *bug* pada kode yang kompleks.
+                        </p>
+                        <p class="fs-5 text-muted">
+                            Untuk menyeimbangkan ritme dari layar komputer dan logika pemrograman, saya menyempatkan diri untuk membaca buku —sebuah cara yang luar biasa untuk memperluas wawasan, menajamkan pemikiran, dan menemukan inspirasi baru.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="section-padding">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-down">
+                <h6 class="text-accent text-uppercase fw-bold">Kompetensi</h6>
+                <h2 class="text-secondary-custom fw-bold display-6">Keahlian & Teknologi</h2>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="skill-card p-5 h-100">
+                        <h4 class="text-secondary-custom mb-4"><i class="bi bi-laptop me-2 text-primary-custom"></i>Technical Skills</h4>
+                        
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between mb-2 fw-semibold"><span>HTML & CSS</span><span>85%</span></div>
+                            <div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 85%;"></div></div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between mb-2 fw-semibold"><span>Analisa Data</span><span>75%</span></div>
+                            <div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 75%;"></div></div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between mb-2 fw-semibold"><span>Python & Machine Learning</span><span>75%</span></div>
+                            <div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 75%;"></div></div>
+                        </div>
+                        <div class="mb-0">
+                            <div class="d-flex justify-content-between mb-2 fw-semibold"><span>Bootstrap 5</span><span>80%</span></div>
+                            <div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 80%;"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="skill-card p-5 h-100 bg-secondary-custom text-white" id="minat-card">
+                        <h4 class="mb-4"><i class="bi bi-diagram-3 me-2" style="color: var(--accent-color)"></i>Aktivitas & Minat Lain</h4>
+                        
+                        <div class="d-flex align-items-center mb-3 interest-item" data-aos="slide-left" data-aos-anchor="#minat-card" data-aos-delay="100">
+                            <div class="bg-white text-secondary-custom p-3 rounded-circle me-3 icon-box-custom shadow-sm">
+                                <i class="bi bi-robot fs-4"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-1 fw-bold">Artificial Intelligence</h5>
+                                <p class="text-light mb-0 small opacity-75">Sangat antusias dalam mengeksplorasi dan mempelajari perkembangan kecerdasan buatan.</p>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-center mb-3 interest-item" data-aos="slide-left" data-aos-anchor="#minat-card" data-aos-delay="200">
+                            <div class="bg-white text-secondary-custom p-3 rounded-circle me-3 icon-box-custom shadow-sm"> 
+                                <i class="bi bi-bar-chart-steps fs-4"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-1 fw-bold">Analisa Data</h5>
+                                <p class="text-light mb-0 small opacity-75">Memiliki ketertarikan kuat dalam mengolah informasi menjadi wawasan yang bermakna.</p>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-center mb-3 interest-item" data-aos="slide-left" data-aos-anchor="#minat-card" data-aos-delay="300">
+                            <div class="bg-white text-secondary-custom p-3 rounded-circle me-3 icon-box-custom shadow-sm">
+                                <i class="bi bi-book fs-4"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-1 fw-bold">Membaca Buku</h5>
+                                <p class="text-light mb-0 small opacity-75">Terus memperluas literasi dan sudut pandang melalui bacaan teknologi dan pengembangan diri.</p>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-center mb-3 interest-item" data-aos="slide-left" data-aos-anchor="#minat-card" data-aos-delay="400">
+                            <div class="bg-white text-secondary-custom p-3 rounded-circle me-3 icon-box-custom shadow-sm">
+                                <i class="bi bi-people fs-4"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-1 fw-bold">Kepanitiaan Kampus</h5>
+                                <p class="text-light mb-0 small opacity-75">Aktif bersosialisasi dan berkontribusi dalam beberapa acara kepanitiaan di kampus.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </div> 
+    </section>
+
+    <section id="portfolio" class="section-padding bg-white">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="zoom-in">
+                <h6 class="text-accent text-uppercase fw-bold">Karya Saya</h6>
+                <h2 class="text-secondary-custom fw-bold display-6">Featured Projects</h2>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-6" data-aos="flip-left" data-aos-duration="1000">
+                    <div class="portfolio-item">
+                        <img src="https://via.placeholder.com/800x600?text=IMK+Project" class="img-fluid w-100" alt="IMK Project">
+                        <div class="portfolio-overlay">
+                            <h3 class="fw-bold mb-3">Riset Interaksi Manusia & Komputer</h3>
+                            <p class="mb-4">Survei tingkat pemahaman antarmuka dan pengenalan ikon pada Google Docs.</p>
+                            <a href="https://github.com/imamrubaiputra77-cpu" target="_blank" class="btn btn-light rounded-pill px-4 fw-bold text-primary-custom">
+                                <i class="bi bi-github me-2"></i>Lihat Kode
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6" data-aos="flip-right" data-aos-duration="1000" data-aos-delay="200">
+                    <div class="portfolio-item">
+                        <img src="https://via.placeholder.com/800x600?text=Machine+Learning" class="img-fluid w-100" alt="ML Project">
+                        <div class="portfolio-overlay">
+                            <h3 class="fw-bold mb-3">Model Prediksi Data Science</h3>
+                            <p class="mb-4">Implementasi algoritma dasar Machine Learning menggunakan Python untuk klasifikasi set data.</p>
+                            <a href="https://github.com/imamrubaiputra77-cpu" target="_blank" class="btn btn-light rounded-pill px-4 fw-bold text-primary-custom">
+                                <i class="bi bi-github me-2"></i>Lihat Kode
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="certifications" class="section-padding">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-down">
+                <h6 class="text-accent text-uppercase fw-bold">Pencapaian</h6>
+                <h2 class="text-secondary-custom fw-bold display-6">Lisensi & Sertifikasi</h2>
+                <p class="text-muted">Bukti dedikasi saya dalam mengembangkan kompetensi dan keahlian.</p>
+            </div>
+            
+            <div class="row g-4 justify-content-center">
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="cert-card">
+                        <i class="bi bi-patch-check-fill cert-icon"></i>
+                        <h5 class="fw-bold text-secondary-custom mb-3">Basic Database</h5>
+                        <p class="text-muted small mb-1"><i class="bi bi-building me-2"></i>Penerbit: Oracle Academy</p>
+                        <p class="text-muted small mb-0"><i class="bi bi-calendar-check me-2"></i>Tahun: 2025</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="cert-card" style="border-left-color: var(--accent-color);">
+                        <i class="bi bi-car-front-fill cert-icon" style="color: var(--accent-color);"></i>
+                        <h5 class="fw-bold text-secondary-custom mb-3">Car Repair</h5>
+                        <p class="text-muted small mb-1"><i class="bi bi-building me-2"></i>Penerbit: Badan Nasional Sertifikasi Profesi</p>
+                        <p class="text-muted small mb-0"><i class="bi bi-calendar-check me-2"></i>Tahun: 2024</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="cert-card" style="border-left-color: var(--secondary-color);">
+                        <i class="bi bi-house-fill cert-icon" style="color: var(--secondary-color);"></i>
+                        <h5 class="fw-bold text-secondary-custom mb-3">Warehouse Operation</h5>
+                        <p class="text-muted small mb-1"><i class="bi bi-building me-2"></i>Penerbit: PT. ADIPUTRO WIRASEJATI</p>
+                        <p class="text-muted small mb-0"><i class="bi bi-calendar-check me-2"></i>Tahun: 2023</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section-padding bg-white">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h6 class="text-accent text-uppercase fw-bold">Sapa Saya</h6>
+                <h2 class="text-secondary-custom fw-bold display-6">Mari Berkolaborasi</h2>
+            </div>
+            
+            <div class="row g-4 justify-content-center">
+                <div class="col-md-4" data-aos="zoom-in-up" data-aos-delay="100">
+                    <a href="mailto:imamrubaiputraa@gmail.com" class="contact-card text-center border">
+                        <i class="bi bi-envelope-paper-heart contact-icon"></i>
+                        <h4 class="text-secondary-custom mb-2">Email</h4>
+                        <p class="text-muted mb-0">imamrubaiputraa@gmail.com</p>
+                    </a>
+                </div>
+                <div class="col-md-4" data-aos="zoom-in-up" data-aos-delay="200">
+                    <a href="https://wa.me/6211123456789" target="_blank" class="contact-card text-center border">
+                        <i class="bi bi-whatsapp contact-icon text-success"></i>
+                        <h4 class="text-secondary-custom mb-2">WhatsApp</h4>
+                        <p class="text-muted mb-0">+62 111 2345 6789</p>
+                    </a>
+                </div>
+                <div class="col-md-4" data-aos="zoom-in-up" data-aos-delay="300">
+                    <a href="https://www.linkedin.com/in/imam-rubai-putra-12180a258?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" class="contact-card text-center border">
+                        <i class="bi bi-linkedin contact-icon" style="color: #0077b5;"></i>
+                        <h4 class="text-secondary-custom mb-2">LinkedIn</h4>
+                        <p class="text-muted mb-0">Imam Rubai Putra</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-5 text-center position-relative">
+        <div class="container">
+            <a href="#home" class="btn btn-accent rounded-circle position-absolute top-0 start-50 translate-middle d-flex align-items-center justify-content-center p-0" style="width: 40px; height: 40px;">
+                <i class="bi bi-chevron-up fs-5"></i>
+            </a>
+            <h4 class="fw-bold mb-3 mt-3">Imam Rubai Putra</h4>
+            <div class="d-flex justify-content-center gap-3 mb-4">
+                <a href="https://github.com/imamrubaiputra77-cpu" target="_blank" class="text-white fs-4 hover-opacity"><i class="bi bi-github"></i></a>
+                <a href="https://www.linkedin.com/in/imam-rubai-putra-12180a258" target="_blank" class="text-white fs-4 hover-opacity"><i class="bi bi-linkedin"></i></a>
+            </div>
+            <p class="mb-1 text-white-50">&copy; 2026 Imam Rubai Putra. All Rights Reserved.</p>
+            <p class="small text-white-50 mb-0">
+                Project Manager: <a href="https://lockey-irawan.github.io/" target="_blank" class="text-white text-decoration-none fw-bold">Lockey Irawan</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Konfigurasi AOS tingkat lanjut
+        AOS.init({
+            once: true,
+            offset: 80,
+            duration: 800,
+            easing: 'ease-out-cubic',
+        });
+    </script>
+</body>
+</html>
